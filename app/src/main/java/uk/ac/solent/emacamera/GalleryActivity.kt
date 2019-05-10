@@ -1,20 +1,17 @@
 package uk.ac.solent.emacamera
-
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.graphics.Bitmap.CompressFormat
-import android.graphics.Bitmap
-import android.os.Environment
-import android.view.View
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_gallery.*
-import uk.ac.solent.emacamera.R.id.bt1
-import java.io.File
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 
-class Gallery : AppCompatActivity() {
+
+
+class GalleryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
@@ -24,10 +21,15 @@ class Gallery : AppCompatActivity() {
             startActivity(clickintent)
         }
         val imageView = findViewById<ImageView>(R.id.img1)
-        val imgResId = R.drawable.ic_launcher_background
-        val img = imgResId
-        imageView.setImageResource(imgResId)
 
+        val file = "/document/primary:DCIM/photo1557497431023.jpg"
+        val myBitmap = BitmapFactory.decodeFile(file.toAbsolutePath())
+
+        val myImage = findViewById(R.id.imageviewTest) as ImageView
+
+        myImage.setImageBitmap(myBitmap)
+
+        imageView.setImageResource(imgResId)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -37,18 +39,17 @@ class Gallery : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.Gallery -> {
-                var clickintent = Intent(this, Gallery::class.java)
+                var clickintent = Intent(this, GalleryActivity::class.java)
                 startActivity(clickintent)
             }
             R.id.settings -> {
-                var clickintent = Intent(this, Gallery::class.java)
+                var clickintent = Intent(this, GalleryActivity::class.java)
                 startActivity(clickintent)
             }
             else ->
                 super.onOptionsItemSelected(item)
         }
         return true;
-
     }
 
 }
