@@ -23,7 +23,7 @@ class GalleryActivity : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.img1)
 
         val file = "/document/primary:DCIM/photo1557497431023.jpg"
-        val myBitmap = BitmapFactory.decodeFile(file.toAbsolutePath())
+        val myBitmap = BitmapFactory.decodeFile (file.toAbsolutePath())
 
         val myImage = findViewById(R.id.imageviewTest) as ImageView
 
