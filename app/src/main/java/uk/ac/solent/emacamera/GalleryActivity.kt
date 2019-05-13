@@ -1,5 +1,8 @@
 package uk.ac.solent.emacamera
+
+import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,34 +11,34 @@ import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_gallery.*
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
-
-
-
+import android.widget.ListView
+import java.nio.file.Files.exists
+import java.util.*
+import android.database.sqlite.SQLiteDatabase
+import android.graphics.Bitmap.CompressFormat
+import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat.startActivity
+import java.io.ByteArrayOutputStream
 class GalleryActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gallery)
+        lateinit var helper: MyHelper
 
-        bt2.setOnClickListener {
-            val clickintent = Intent(this, MainActivity::class.java)
-            startActivity(clickintent)
+        ImageView = (ImageView) findViewById (R.id.img1);
+        ImageView.setImageBitmap(getImageFromBLOB(object.getBlob(object.getColumnIndex("album"))));
+        public static Bitmap getImageFromBLOB (byte[] mBlob){
+            byte[] = mBlob;
+            return BitmapFactory.decodeByteArray( 0, byte[].length);
         }
-        val imageView = findViewById<ImageView>(R.id.img1)
-
-        val file = "/document/primary:DCIM/photo1557497431023.jpg"
-        val myBitmap = BitmapFactory.decodeFile (file.toAbsolutePath())
-
-        val myImage = findViewById(R.id.imageviewTest) as ImageView
-
-        myImage.setImageBitmap(myBitmap)
-
-        imageView.setImageResource(imgResId)
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu, menu)
         return true
-    }
+        }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             R.id.Gallery -> {
@@ -43,7 +46,7 @@ class GalleryActivity : AppCompatActivity() {
                 startActivity(clickintent)
             }
             R.id.settings -> {
-                var clickintent = Intent(this, GalleryActivity::class.java)
+                var clickintent = Intent(this, SettingsActivity::class.java)
                 startActivity(clickintent)
             }
             else ->
@@ -52,5 +55,7 @@ class GalleryActivity : AppCompatActivity() {
         return true;
     }
 
+
 }
+
 

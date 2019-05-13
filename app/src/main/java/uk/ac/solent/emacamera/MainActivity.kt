@@ -1,4 +1,5 @@
 package uk.ac.solent.emacamera
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,9 +14,18 @@ import io.fotoapparat.log.loggers
 import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.provider.MediaStore
+import android.util.Log
+import java.io.ByteArrayOutputStream
+
 class MainActivity : AppCompatActivity() {
+    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     lateinit var helper: MyHelper
-    lateinit var fotoapparat: Fotoapparat ////change to nullable variable ----> runtime permissions
+    lateinit var fotoapparat: Fotoapparat
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -56,16 +66,32 @@ class MainActivity : AppCompatActivity() {
         helper = MyHelper(this)
         bt1.setOnClickListener {
             val photoResult = fotoapparat.takePicture()
-
-            val loc : String = "${Environment.getExternalStorageDirectory().getAbsolutePath()}/DCIM/Camera/img${System.currentTimeMillis()}.jpg";
+            val loc: String = "${Environment.getExternalStorageDirectory().getAbsolutePath()}/DCIM/img${System.currentTimeMillis()}.jpg";
             photoResult.saveToFile(File(loc))
-            val name    = ""
+            val name = ""
             helper.addImage(name, loc)
+            fun getBytes(bitmap: Bitmap): ByteArray {
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(CompressFormat.PNG, 0, stream)
+                return stream.toByteArray()
+            }
+            fun getImage(image: ByteArray): Bitmap {
+                return BitmapFactory.decodeByteArray(image, 0, image.size)
+            }
+        }
+    }
+    public override fun onActivityResult(requestcode: Int, resultcode: Int, intent: Intent) {
+        super.onActivityResult(requestcode, resultcode, intent)
+        if (resultcode == Activity.RESULT_OK) {
+            if (requestcode == 101) {
+
+            }
         }
     }
     override fun onStart() {
         super.onStart()
         fotoapparat.start()
+
     }
     override fun onStop() {
         super.onStop()
